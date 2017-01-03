@@ -1,0 +1,30 @@
+{
+  "name": "iframe-widget",
+  "description": "add iframe widgets following the standard eiwos",
+  "authors": [
+    "Endes <endes123321@gmail.com>"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "iframe",
+    "widget",
+    "eiwos",
+    "embed"
+  ],
+  "main": "iframe-widget.html",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eiwos/iframe-widget.git"
+  },
+  "license": "https://raw.githubusercontent.com/eiwos/iframe-widget/master/LICENSE",
+  "homepage": "https://github.com/eiwos/iframe-widget",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}
