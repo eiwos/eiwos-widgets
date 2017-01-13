@@ -12,8 +12,12 @@
     "eiwos",
     "embed"
   ],
-  "main": "iframe-widget.html",
-  "private": true,
+  "main": [
+  "iframe-widget.html",
+  "js/bin/fiwa.js",
+  "js/bin/fiwa_client.js",
+  ],
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git://github.com/eiwos/iframe-widget.git"
