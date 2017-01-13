@@ -15,7 +15,7 @@
   "main": [
   "iframe-widget.html",
   "js/bin/fiwa.js",
-  "js/bin/fiwa_client.js",
+  "js/bin/fiwa_client.js"
   ],
   "private": false,
   "repository": {
