@@ -17,9 +17,9 @@ HxOverrides.iter = function(a) {
 	}};
 };
 var fiwa_Fiwa = function() {
-	this.game = new fiwa_extraiwa_Game();
-	this.player = new fiwa_extraiwa_Player();
-	this.extraiwa = new fiwa_extraiwa_Extraiwa();
+	this.game = new fiwa_extra_Game();
+	this.player = new fiwa_extra_Player();
+	this.extraiwa = new fiwa_extra_Extraiwa();
 	this.iwa = new fiwa_Iwa();
 };
 fiwa_Fiwa.main = function() {
@@ -190,7 +190,7 @@ fiwa_Iwa.prototype = {
 		return window.document.getElementById(id).contentWindow;
 	}
 };
-var fiwa_extraiwa_Extraiwa = function() {
+var fiwa_extra_Extraiwa = function() {
 	this.iwa = fiwa_Iwa;
 	this.frame_finish = [];
 	this.frame_playing = [];
@@ -201,9 +201,9 @@ var fiwa_extraiwa_Extraiwa = function() {
 	this.iwa.register_function("extraiwa",$bind(this,this.onmsg));
 	window.addEventListener("DOMContentLoaded",$bind(this,this.onloaded));
 };
-fiwa_extraiwa_Extraiwa.main = function() {
+fiwa_extra_Extraiwa.main = function() {
 };
-fiwa_extraiwa_Extraiwa.prototype = {
+fiwa_extra_Extraiwa.prototype = {
 	on_frame_loaded: function(the_function) {
 		this.frame_loaded.push(the_function);
 	}
@@ -262,21 +262,21 @@ fiwa_extraiwa_Extraiwa.prototype = {
 		}
 	}
 };
-var fiwa_extraiwa_Game = function() {
+var fiwa_extra_Game = function() {
 	this.iwa = fiwa_Iwa;
 	this.leadboard_functions = new haxe_ds_StringMap();
 	this.value_functions = new haxe_ds_StringMap();
-	this.mobile_functions = new haxe_ds_StringMap();
+	this.phone_functions = new haxe_ds_StringMap();
 	this.game_values = new haxe_ds_StringMap();
 	this.leadboards = new haxe_ds_StringMap();
 	this.controllers = new haxe_ds_StringMap();
 	this.games_info = new haxe_ds_StringMap();
 	this.iwa.register_function("extragame",$bind(this,this.onmsg));
 };
-fiwa_extraiwa_Game.main = function() {
-	new fiwa_extraiwa_Game();
+fiwa_extra_Game.main = function() {
+	new fiwa_extra_Game();
 };
-fiwa_extraiwa_Game.prototype = {
+fiwa_extra_Game.prototype = {
 	get_info: function(frameid) {
 		var _this = this.games_info;
 		if(__map_reserved[frameid] != null) {
@@ -297,12 +297,12 @@ fiwa_extraiwa_Game.prototype = {
 	,set_controller: function(frameid,name,key) {
 		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_controller", name : name, key : key}),"extragame");
 	}
-	,on_mobile: function(frameid,the_function) {
-		var _this = this.mobile_functions;
+	,on_phone: function(frameid,the_function) {
+		var _this = this.phone_functions;
 		(__map_reserved[frameid] != null?_this.getReserved(frameid):_this.h[frameid]).push(the_function);
 	}
-	,set_mobile_controller: function(frameid,value) {
-		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_mobile_controller", show : value}),"extragame");
+	,set_phone_controller: function(frameid,value) {
+		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_phone_controller", show : value}),"extragame");
 	}
 	,set_style: function(frameid,style) {
 		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_css", css : style}),"extragame");
@@ -408,9 +408,9 @@ fiwa_extraiwa_Game.prototype = {
 				++_g5;
 				the_function1(data1.value_name,data1.value);
 			}
-		} else if(data1.msg == "set_mobile") {
+		} else if(data1.msg == "set_phone") {
 			var _g6 = 0;
-			var _this10 = this.mobile_functions;
+			var _this10 = this.phone_functions;
 			var _g15 = __map_reserved[element_id] != null?_this10.getReserved(element_id):_this10.h[element_id];
 			while(_g6 < _g15.length) {
 				var the_function2 = _g15[_g6];
@@ -420,23 +420,23 @@ fiwa_extraiwa_Game.prototype = {
 		}
 	}
 };
-var fiwa_extraiwa_Player = function() {
+var fiwa_extra_Player = function() {
 	this.iwa = fiwa_Iwa;
 	this.time_functions = new haxe_ds_StringMap();
 	this.players_controls = new haxe_ds_StringMap();
 	this.players_sources = new haxe_ds_StringMap();
 	this.players_qualities = new haxe_ds_StringMap();
-	this.players_videos_info = new haxe_ds_StringMap();
-	this.players_videos_duration = new haxe_ds_StringMap();
+	this.players_medias_info = new haxe_ds_StringMap();
+	this.players_medias_duration = new haxe_ds_StringMap();
 	this.players_current_time = new haxe_ds_StringMap();
 	this.players_status = new haxe_ds_StringMap();
 	this.iwa.register_function("extraplayer",$bind(this,this.onmsg));
 };
-fiwa_extraiwa_Player.main = function() {
-	new fiwa_extraiwa_Player();
+fiwa_extra_Player.main = function() {
+	new fiwa_extra_Player();
 };
-fiwa_extraiwa_Player.prototype = {
-	play_video: function(frameid) {
+fiwa_extra_Player.prototype = {
+	play_media: function(frameid) {
 		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_status", status : 1}),"extraplayer");
 		var _this = this.players_status;
 		if(__map_reserved[frameid] != null) {
@@ -445,7 +445,7 @@ fiwa_extraiwa_Player.prototype = {
 			_this.h[frameid] = 1;
 		}
 	}
-	,stop_video: function(frameid) {
+	,stop_media: function(frameid) {
 		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_status", status : 0}),"extraplayer");
 		var _this = this.players_status;
 		if(__map_reserved[frameid] != null) {
@@ -454,7 +454,7 @@ fiwa_extraiwa_Player.prototype = {
 			_this.h[frameid] = 0;
 		}
 	}
-	,pause_video: function(frameid) {
+	,pause_media: function(frameid) {
 		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_status", status : 2}),"extraplayer");
 		var _this = this.players_status;
 		if(__map_reserved[frameid] != null) {
@@ -471,8 +471,8 @@ fiwa_extraiwa_Player.prototype = {
 			return _this.h[frameid];
 		}
 	}
-	,get_video_duration: function(frameid) {
-		var _this = this.players_videos_duration;
+	,get_media_duration: function(frameid) {
+		var _this = this.players_medias_duration;
 		if(__map_reserved[frameid] != null) {
 			return _this.getReserved(frameid);
 		} else {
@@ -527,8 +527,8 @@ fiwa_extraiwa_Player.prototype = {
 			return _this.h[frameid];
 		}
 	}
-	,get_video_info: function(frameid) {
-		var _this = this.players_videos_info;
+	,get_media_info: function(frameid) {
+		var _this = this.players_medias_info;
 		if(__map_reserved[frameid] != null) {
 			return _this.getReserved(frameid);
 		} else {
@@ -543,8 +543,8 @@ fiwa_extraiwa_Player.prototype = {
 			return _this.h[frameid];
 		}
 	}
-	,set_video: function(frameid,source,video_id) {
-		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_video", source : source, video : video_id}),"extraiwa");
+	,set_media: function(frameid,source,media_id) {
+		this.iwa.send_to_frame(frameid,JSON.stringify({ msg : "set_media", source : source, media : media_id}),"extraiwa");
 	}
 	,onmsg: function(data,element_id) {
 		var data1 = JSON.parse(data);
@@ -573,9 +573,9 @@ fiwa_extraiwa_Player.prototype = {
 			} else {
 				_this3.h[k] = v;
 			}
-		} else if(data1.msg == "update_video") {
+		} else if(data1.msg == "update_media") {
 			var value1 = data1.duration;
-			var _this4 = this.players_videos_duration;
+			var _this4 = this.players_medias_duration;
 			if(__map_reserved[element_id] != null) {
 				_this4.setReserved(element_id,value1);
 			} else {
@@ -585,7 +585,7 @@ fiwa_extraiwa_Player.prototype = {
 			var _g2 = data1.info_keys.length;
 			while(_g11 < _g2) {
 				var i1 = _g11++;
-				var _this5 = this.players_videos_info;
+				var _this5 = this.players_medias_info;
 				var key1 = data1.info_keys[i1];
 				var value2 = data1.info_value[i1];
 				var _this6 = __map_reserved[element_id] != null?_this5.getReserved(element_id):_this5.h[element_id];

@@ -9,9 +9,9 @@ HxOverrides.iter = function(a) {
 	}};
 };
 var fiwa_Fiwa_$client = function() {
-	this.game = new fiwa_extraiwaclient_Game();
-	this.player = new fiwa_extraiwaclient_Player();
-	this.extraiwa = new fiwa_extraiwaclient_Extraiwa();
+	this.game = new fiwa_extraclient_Game();
+	this.player = new fiwa_extraclient_Player();
+	this.extraiwa = new fiwa_extraclient_Extraiwa();
 	this.iwa = new fiwa_Iwa_$client();
 };
 fiwa_Fiwa_$client.main = function() {
@@ -244,7 +244,7 @@ fiwa_Iwa_$client.prototype = {
 		}
 	}
 };
-var fiwa_extraiwaclient_Extraiwa = function() {
+var fiwa_extraclient_Extraiwa = function() {
 	this.iwa = fiwa_Iwa_$client;
 	this.parent_loaded = [];
 	this.parent_has_loaded = false;
@@ -252,9 +252,9 @@ var fiwa_extraiwaclient_Extraiwa = function() {
 	this.iwa.register_function("extraiwa",$bind(this,this.onmsg));
 	window.addEventListener("DOMContentLoaded",$bind(this,this.onloaded));
 };
-fiwa_extraiwaclient_Extraiwa.main = function() {
+fiwa_extraclient_Extraiwa.main = function() {
 };
-fiwa_extraiwaclient_Extraiwa.prototype = {
+fiwa_extraclient_Extraiwa.prototype = {
 	on_parent_loaded: function(the_function) {
 		this.parent_loaded.push(the_function);
 	}
@@ -280,17 +280,17 @@ fiwa_extraiwaclient_Extraiwa.prototype = {
 		}
 	}
 };
-var fiwa_extraiwaclient_Game = function() {
+var fiwa_extraclient_Game = function() {
 	this.mobile_functions = [];
 	this.user_functions = [];
 	this.controller_functions = [];
 	this.iwa = fiwa_Iwa_$client;
 	this.iwa.register_function("extraplayer",$bind(this,this.onmsg));
 };
-fiwa_extraiwaclient_Game.main = function() {
-	new fiwa_extraiwaclient_Game();
+fiwa_extraclient_Game.main = function() {
+	new fiwa_extraclient_Game();
 };
-fiwa_extraiwaclient_Game.prototype = {
+fiwa_extraclient_Game.prototype = {
 	init_game: function(info,controllers,onuser) {
 		var info_keys = this.to_array_string(info.keys());
 		var info_values = this.to_array_string(new haxe_ds__$StringMap_StringMapIterator(info,info.arrayKeys()));
@@ -361,27 +361,27 @@ fiwa_extraiwaclient_Game.prototype = {
 		}
 	}
 };
-var fiwa_extraiwaclient_Player = function() {
+var fiwa_extraclient_Player = function() {
 	this.iwa = fiwa_Iwa;
-	this.video_functions = [];
+	this.media_functions = [];
 	this.quality_functions = [];
 	this.controls_functions = [];
 	this.time_functions = [];
 	this.status_functions = [];
 	this.iwa.register_function("extraplayer",$bind(this,this.onmsg));
 };
-fiwa_extraiwaclient_Player.main = function() {
-	new fiwa_extraiwaclient_Player();
+fiwa_extraclient_Player.main = function() {
+	new fiwa_extraclient_Player();
 };
-fiwa_extraiwaclient_Player.prototype = {
-	init_player: function(sources,qualities,video_info,video_duration,controls) {
-		var info_keys = this.to_array_string(video_info.keys());
-		var info_value = this.to_array_string(new haxe_ds__$StringMap_StringMapIterator(video_info,video_info.arrayKeys()));
+fiwa_extraclient_Player.prototype = {
+	init_player: function(sources,qualities,media_info,media_duration,controls) {
+		var info_keys = this.to_array_string(media_info.keys());
+		var info_value = this.to_array_string(new haxe_ds__$StringMap_StringMapIterator(media_info,media_info.arrayKeys()));
 		var controls_keys = this.to_array_string(controls.keys());
 		var controls_values = this.to_array_int(new haxe_ds__$StringMap_StringMapIterator(controls,controls.arrayKeys()));
 		this.iwa.send_to_parent(JSON.stringify({ msg : "update_sources", sources : sources}),"extraplayer");
 		this.iwa.send_to_parent(JSON.stringify({ msg : "update_qualities", qualities : qualities}),"extraplayer");
-		this.iwa.send_to_parent(JSON.stringify({ msg : "update_video", duration : video_duration, info_keys : info_keys, info_values : info_value}),"extraplayer");
+		this.iwa.send_to_parent(JSON.stringify({ msg : "update_media", duration : media_duration, info_keys : info_keys, info_values : info_value}),"extraplayer");
 		this.iwa.send_to_parent(JSON.stringify({ msg : "update_controls", controls : controls_keys, values : controls_values}),"extraplayer");
 	}
 	,on_status_changed: function(the_function) {
@@ -402,16 +402,16 @@ fiwa_extraiwaclient_Player.prototype = {
 	,set_control_value: function(control,value) {
 		this.iwa.send_to_parent(JSON.stringify({ msg : "update_control", control : control, value : value}),"extraplayer");
 	}
-	,set_video_changed: function(video_info,video_duration,qualities) {
-		var info_keys = this.to_array_string(video_info.keys());
-		var info_value = this.to_array_string(new haxe_ds__$StringMap_StringMapIterator(video_info,video_info.arrayKeys()));
-		this.iwa.send_to_parent(JSON.stringify({ msg : "update_video", duration : video_duration, info_keys : info_keys, info_values : info_value}),"extraplayer");
+	,set_media_changed: function(media_info,media_duration,qualities) {
+		var info_keys = this.to_array_string(media_info.keys());
+		var info_value = this.to_array_string(new haxe_ds__$StringMap_StringMapIterator(media_info,media_info.arrayKeys()));
+		this.iwa.send_to_parent(JSON.stringify({ msg : "update_media", duration : media_duration, info_keys : info_keys, info_values : info_value}),"extraplayer");
 		if(qualities != null) {
 			this.iwa.send_to_parent(JSON.stringify({ msg : "update_qualities", qualities : qualities}),"extraplayer");
 		}
 	}
-	,on_video_changed: function(the_function) {
-		this.video_functions.push(the_function);
+	,on_media_changed: function(the_function) {
+		this.media_functions.push(the_function);
 	}
 	,to_array_string: function(iterator) {
 		var $final = [];
@@ -449,13 +449,13 @@ fiwa_extraiwaclient_Player.prototype = {
 				++_g3;
 				the_function2(data1.control,data1.value);
 			}
-		} else if(data1.msg == "set_video") {
+		} else if(data1.msg == "set_media") {
 			var _g4 = 0;
-			var _g13 = this.video_functions;
+			var _g13 = this.media_functions;
 			while(_g4 < _g13.length) {
 				var the_function3 = _g13[_g4];
 				++_g4;
-				the_function3(data1.source,data1.video);
+				the_function3(data1.source,data1.media_id);
 			}
 		}
 	}
