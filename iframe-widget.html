@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="init-fiwa">
-    <script src="bin/fiwa.js"></script>
+    <script src="js/bin/fiwa.js"></script>
     <script>
     Polymer({
         is: 'init-fiwa'
@@ -10,7 +10,7 @@
 </dom-module>
 
 <dom-module id="init-fiwa-client">
-    <script src="bin/fiwa_client.js"></script>
+    <script src="js/bin/fiwa_client.js"></script>
     <script>
     Polymer({
         is: 'init-fiwa-client'
@@ -95,7 +95,7 @@
     }
     </style>
     <template is="dom-if" if="{{thumbnail}}">
-      <img src="{{thumbnail}}" height="{{height}}" width="{{width}}" class="overtumb"></img>
+      <img id="i{{id}}" src="{{thumbnail}}" height="{{height}}" width="{{width}}" class="overtumb"></img>
     </template>
     <iframe width="{{width}}" height="{{height}}" id="{{id}}" src="{{src}}" allowtranspatency="true" sandbox="{{perms}}" scrolling="no" style="border:0" onload="{{onload}}"></iframe>
     <script>
@@ -115,9 +115,12 @@
 
         ready: function() {
           if (this.force_origin == true) {
-            this.onload = "iwa.force_origin({{id}})";
+            document.getElementById(this.id).onload = fiwa_Iwa.force_origin(this.id);
           }
-          iwa.init_frame(this.id, this.src, this.backcolor, this.backimage);
+          fiwa_Iwa.init_frame(this.id, this.src, this.backcolor, this.backimage);
+          fiwa_Fiwa.extraiwa.on_frame_loaded(function() {
+            document.getElementById("i" + this.id).className += "fadeout";
+          });
         }
     });
     </script>
@@ -200,16 +203,14 @@
     }
     </style>
     <template is="dom-if" if="{{thumbnail}}">
-      <img src="{{thumbnail}}" height="{{height}}" width="{{width}}" class="overtumb"></img>
+      <img src="{{thumbnail}}" height="100vh" width="100vw" class="overtumb"></img>
     </template>
-    <iframe width="{{width}}" height="{{height}}" id="{{id}}" src="{{src}}" allowtranspatency="true" sandbox="{{perms}}" scrolling="no" style="display: block; border: none; height: 100vh; width: 100vw;" onload="{{onload}}"></iframe>
+    <iframe width="100vw" height="100vh" id="{{id}}" src="{{src}}" allowtranspatency="true" sandbox="{{perms}}" scrolling="no" style="display: block; border: none; height: 100vh; width: 100vw;" onload="{{onload}}"></iframe>
     <script>
     Polymer({
         is: 'widget-full',
         properties: {
           id: String,
-          width: Number,
-          height: Number,
           thumbnail: String,
           src: String,
           perms: String,
@@ -220,9 +221,12 @@
 
         ready: function() {
           if (this.force_origin == true) {
-            this.onload = "iwa.force_origin({{id}})";
+            document.getElementById(this.id).onload = fiwa_Iwa.force_origin(this.id);
           }
-          iwa.init_frame(this.id, this.src, this.backcolor, this.backimage);
+          fiwa_Iwa.init_frame(this.id, this.src, this.backcolor, this.backimage);
+          fiwa_Fiwa.extraiwa.on_frame_loaded(function() {
+            document.getElementById("i" + this.id).className += "fadeout";
+          });
         }
     });
     </script>
